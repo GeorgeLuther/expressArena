@@ -90,18 +90,16 @@ app.get('/lotto',(req,res)=>{
     for (let i=0; i<6;i++) {
         winArr.push((Math.floor(Math.random()*Math.floor(20))+1))
     }
+
+    const count = numbers.reduce((total, number) => {
+        return total + winArr.includes(number);
+    }, 0);
     
-    let count = 0
-    numbers.forEach((num, idx) => {
-        if (Number(num) === winArr[idx]) {
-            count = count + 1
-        }
-    })
 
     if (count < 4) {
-        res.send("Sorry, you lose")
+        res.send(`Sorry, you lose. ${winArr} vs ${numbers}`)
     } else if (count === 4) {
-        res.send("Congratulations, you win a free ticket")
+        res.send(`Congratulations, you win a free ticket. ${winArr} vs ${numbers}`)
     } else if (count === 5) {
         res.send("Congratulations, you win $100")
     } else if (count === 6) {
